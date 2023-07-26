@@ -1,18 +1,21 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\CreateOutletController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\DashboardTransactionController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\OrderController;
+use App\Models\Rate;
 use App\Models\Outlet;
 use App\Models\Product;
+use App\Models\TransactionItem;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\CreateOutletController;
+use App\Http\Controllers\DashboardTransactionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,12 +43,7 @@ Route::get('/shop', function() {
     ]);
 });
 
-Route::get('/shop/product-{product:id}', function(Product $product) {
-    return view('product', [
-        'products' => Product::all(),
-        'product' => $product
-    ]);
-});
+Route::get('/shop/product-{product:id}', [ProductController::class, 'detail']);
 
 
 // =================================================================================================================
@@ -103,4 +101,7 @@ Route::get('/dashboard/transaction/completed/{transaction:id}', [DashboardTransa
 
 Route::get('/dashboard/transaction/rejected', [DashboardTransactionController::class, 'showReject'])->middleware('toko');
 Route::get('/dashboard/transaction/rejected/{transaction:id}', [DashboardTransactionController::class, 'detailReject'])->middleware('toko');
+
+
+Route::post('/review', [ReviewController::class, 'store']);
 

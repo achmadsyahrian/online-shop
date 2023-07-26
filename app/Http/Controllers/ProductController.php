@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Category;
+use App\Models\Rate;
 use App\Models\Outlet;
+use App\Models\Product;
+use App\Models\Quality;
+use App\Models\Category;
+use App\Models\TransactionItem;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -21,6 +24,21 @@ class ProductController extends Controller
         return view('dashboard.products.index', [
             'products' => Product::where('outlet_id', auth()->user()->outlet->id)->paginate(10),
             'outlets' => Outlet::all()
+        ]);
+    }
+    
+    public function detail(Product $product)
+    {
+        $transactionItemIds = TransactionItem::where('product_id', $product->id)->select('id');
+        $rates = Rate::whereIn('transaction_item_id', $transactionItemIds)->get();
+        $rates = Rate::whereIn('transaction_item_id', $transactionItemIds)->get();
+        $qualities = Quality::whereIn('transaction_item_id', $transactionItemIds)->get();
+        
+        return view('product', [
+            'products' => Product::all(),
+            'product' => $product,
+            'rates' => $rates,
+            'qualities' => $qualities,
         ]);
     }
 

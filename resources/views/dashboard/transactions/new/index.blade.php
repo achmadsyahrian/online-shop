@@ -44,6 +44,9 @@
                      {{-- @php
                      $pageNumber = ($categories->currentPage() - 1) * $categories->perPage();
                      @endphp --}}
+                     @php
+                         $i = 1
+                     @endphp
                      @foreach ($transactions as $transaction)
                      {{-- @php
                      $pageNumber++;
@@ -51,7 +54,7 @@
                      <tr>
                         <td class="border-bottom-0">
                            <h6 class="fw-semibold mb-0">
-                              1
+                              {{ $i++ }}
                            </h6>
                         </td>
                         <td class="border-bottom-0">

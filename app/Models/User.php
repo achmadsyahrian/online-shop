@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Rate;
 use App\Models\Outlet;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -41,5 +42,10 @@ class User extends Authenticatable
     public function Outlet()
     {
         return $this->hasOne(Outlet::class);
+    }
+
+    public function rate()
+    {
+        return $this->hasMany(Rate::class);
     }
 }
