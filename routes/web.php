@@ -11,6 +11,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MetodeWpController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionController;
@@ -89,6 +90,11 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store']);
 
+
+// =================================================================================================================
+// Metode Section
+Route::get('/tablewp', [MetodeWpController::class, 'table'])->name('tablewp')->middleware('auth');
+Route::get('/metodewp', [MetodeWpController::class, 'index'])->name('metodewp')->middleware('auth');
 
 // =================================================================================================================
 // Dashboard Transaction Section

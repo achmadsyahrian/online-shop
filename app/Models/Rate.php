@@ -16,4 +16,11 @@ class Rate extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    //belongsTo to transactionItem
+    public function transactionItem()
+    {
+        return $this->belongsTo(TransactionItem::class);
+    }
+
 }

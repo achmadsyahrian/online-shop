@@ -67,11 +67,11 @@
                                        <div class="col-sm-6">
                                           <label for="">Product Quality</label>
                                           <select name="description" class="form-control">
-                                             <option value="Sangat Buruk">1</option>
-                                             <option value="Buruk">2</option>
-                                             <option value="Standart">3</option>
-                                             <option value="Baik">4</option>
-                                             <option value="Sangat Baik">5</option>
+                                             <option value="1">Sangat Buruk</option>
+                                             <option value="2">Buruk</option>
+                                             <option value="3">Standart</option>
+                                             <option value="4">Baik</option>
+                                             <option value="5">Sangat Baik</option>
                                           </select>
                                        </div>
                                     </div>

@@ -13,13 +13,25 @@ class TransactionItem extends Model
 
     protected $guarded = ['id'];
 
-    public function product() 
+    public function product()
     {
         return $this->belongsTo(Product::class);
     }
 
-    public function transaction() 
+    public function transaction()
     {
         return $this->belongsTo(Transaction::class);
+    }
+
+    //hasOne to rate
+    public function rate()
+    {
+        return $this->hasOne(Rate::class);
+    }
+
+    //hasOne to Quality
+    public function quality()
+    {
+        return $this->hasOne(Quality::class);
     }
 }

@@ -28,19 +28,21 @@ class Product extends Model
         });
 
     }
-    
+
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function outlet() 
+    public function outlet()
     {
         return $this->belongsTo(Outlet::class);
     }
 
-    public function transactionItem() 
+    public function transactionItem()
     {
-        return $this->hasOne(Transaction::class);
+        return $this->hasMany(TransactionItem::class);
     }
+
+
 }
