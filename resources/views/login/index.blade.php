@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Modernize Free</title>
+  <title>Online Shop</title>
   <link rel="shortcut icon" type="image/png" href="{{ asset('p_dashboard/images/logos/favicon.png') }}" />
   <link rel="stylesheet" href="{{ asset('p_dashboard/css/styles.min.css') }}" />
 </head>
@@ -27,6 +27,10 @@
                 @if (session()->has('loginError'))  
                   <div class="alert alert-danger text-center" role="alert">
                      {{ session('loginError') }}
+                  </div>
+                @elseif(session()->has('success'))
+                  <div class="alert alert-success text-center" role="alert">
+                     {{ session('success') }}
                   </div>
                 @endif
                 <form action="/login" method="POST">

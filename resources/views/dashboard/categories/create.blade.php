@@ -8,7 +8,7 @@
          <form action="/dashboard/categories" method="POST">
             @csrf
             <div class="mb-3">
-               <label for="name" class="form-label">Product Name</label>
+               <label for="name" class="form-label">Category Name</label>
                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}">
                @error('name')
                   <div id="name" class="form-text text-danger">{{ $message }}.</div>

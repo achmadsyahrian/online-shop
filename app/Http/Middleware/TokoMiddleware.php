@@ -17,10 +17,10 @@ class TokoMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role === 'toko') {
+        if (Auth::check() && Auth::user()->role === 'toko' && Auth::user()->outlet !== null && Auth::user()->outlet->user_id === Auth::user()->id) {
             return $next($request);
         }
 
         return redirect('/login'); // Redirect ke halaman tidak diizinkan jika bukan admin
-        }
+    }
 }

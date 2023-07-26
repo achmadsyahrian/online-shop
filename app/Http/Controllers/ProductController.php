@@ -19,7 +19,7 @@ class ProductController extends Controller
     public function index()
     {
         return view('dashboard.products.index', [
-            'products' => Product::paginate(10),
+            'products' => Product::where('outlet_id', auth()->user()->outlet->id)->paginate(10),
             'outlets' => Outlet::all()
         ]);
     }
@@ -33,9 +33,9 @@ class ProductController extends Controller
     {
         return view('dashboard.products.create', [
             'categories' => Category::all(),
-            'outlets' => Outlet::all()
         ]);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -48,7 +48,6 @@ class ProductController extends Controller
         $validateData = $request->validate([
             'name' => 'required|max:255|unique:products',
             'category_id' => 'required',
-            'outlet_id' => 'required',
             'harga' => 'required|integer',
             'stock' => 'required|integer',
             'photo_1' => 'image|file|max:3072|required', //3mb max
@@ -57,6 +56,8 @@ class ProductController extends Controller
             'description' => 'required'
         ]);
 
+        $validateData['outlet_id'] = auth()->user()->outlet->id;
+        
         if ($request->file('photo_1')) {
             $validateData['photo_1'] = $request->file('photo_1')->store('product-images');
         }
@@ -83,7 +84,6 @@ class ProductController extends Controller
     {
         return view('dashboard.products.show', [
             'product' => $product,
-            'outlets' => Outlet::all()
         ]);
     }
 
@@ -98,7 +98,6 @@ class ProductController extends Controller
         return view('dashboard.products.edit', [
             'product' => $product,
             'categories' => Category::all(),
-            'outlets' => Outlet::all()
         ]);
     }
 
@@ -113,7 +112,6 @@ class ProductController extends Controller
     {
         $rules = [
             'category_id' => 'required',
-            'outlet_id' => 'required',
             'harga' => 'required|integer',
             'stock' => 'required|integer',
             'photo_1' => 'image|file|max:3072', //3mb max
@@ -121,6 +119,8 @@ class ProductController extends Controller
             'photo_3' => 'image|file|max:3072', 
             'description' => 'required',
         ];
+
+        $validateData['outlet_id'] = auth()->user()->outlet->id;
 
         if ($request->name != $product->name) {
             $rules['name'] = 'required|max:255|unique:products';

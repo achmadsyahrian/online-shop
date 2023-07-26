@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ $outlets[0]->name }}</title>
+  <title>{{ auth()->user()->outlet->name }}</title>
   <link rel="shortcut icon" type="image/png" href="{{ asset('p_dashboard/images/logos/favicon.png') }}" />
   <link rel="stylesheet" href="{{ asset('p_dashboard/css/styles.min.css') }}" />
 
@@ -46,6 +46,7 @@
   <script src="{{ asset('p_dashboard/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
   <script src="{{ asset('p_dashboard/libs/simplebar/dist/simplebar.js') }}"></script>
   <script src="{{ asset('p_dashboard/js/dashboard.js') }}"></script>
+  {{-- Font Awesome --}}
   <script src="https://kit.fontawesome.com/5d3ac04a7f.js" crossorigin="anonymous"></script>
   {{-- Sweet Alerts --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

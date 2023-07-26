@@ -10,7 +10,7 @@
       @endif
       <div class="ms-auto">
          <p class="fw-bolder text-primary">
-            <i class="fa-solid fa-store text-warning"></i> <i class="ti ti-typography text-primary"></i>{{ $product->outlet->name }}
+            <i class="fa-solid fa-store text-warning"></i> {{ $product->outlet->name }}
          </p>
       </div>
    </div>

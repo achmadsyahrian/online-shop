@@ -26,16 +26,6 @@
                </select>
             </div>
             <div class="mb-3">
-               <label for="price" class="form-label">Outlet</label>
-               <select class="form-select" name="outlet_id" aria-label="Default select example">
-                  @foreach ($outlets as $outlet)
-                     <option value="{{ $outlet->id }}" {{ (old('outlet_id', $product->outlet_id) == $outlet->id) ? 'selected' : '' }}>
-                        {{ $outlet->name }}
-                     </option>
-                  @endforeach
-               </select>
-            </div>
-            <div class="mb-3">
                <label for="price" class="form-label">Price</label>
                <div class="input-group mb-3">
                   <span class="input-group-text">Rp.</span>

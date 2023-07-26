@@ -25,26 +25,21 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        User::factory(3)->create();
+        User::create([
+            'username' => 'achrian',
+            'name' => 'Achmad Syahrian',
+            'password' => bcrypt('achrian123'),
+            'role' => 'toko',
+            'phone' => '0895423336075'
+        ]);
         
         Outlet::create([
             'user_id' => 1,
-            'name' => "chmad.ID",
+            'name' => "Achmad.ID",
             'address' => "Washington, D.C., Amerika Serikat",
             'phone' => '089528126200',
-            'description' => "-"
-        ]);
-        
-        Category::create([
-            'name' => "Kaos"
-        ]);
-        Category::create([
-            'name' => "Kemeja"
-        ]);
-        Category::create([
-            'name' => "Jaket"
+            'description' => ""
         ]);
 
-        Product::factory(15)->create();
     }
 }

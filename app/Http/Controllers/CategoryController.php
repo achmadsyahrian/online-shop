@@ -16,7 +16,7 @@ class CategoryController extends Controller
     public function index()
     {
         return view('dashboard.categories.index', [
-            'categories' => Category::paginate(10),
+            'categories' => Category::where('outlet_id', auth()->user()->outlet->id)->paginate(10),
             'outlets' => Outlet::all()
         ]);
     }
@@ -46,6 +46,7 @@ class CategoryController extends Controller
             'name' => 'required|unique:categories|string'
         ]);
 
+        $validateData['outlet_id'] = auth()->user()->outlet->id;
         Category::create($validateData);
 
         return redirect('/dashboard/categories')->with('success', 'New Category has been added!');
@@ -72,7 +73,6 @@ class CategoryController extends Controller
     {
         return view('dashboard.categories.edit', [
             'category' => $category,
-            'outlets' => Outlet::all()
         ]);
     }
 
@@ -90,8 +90,12 @@ class CategoryController extends Controller
             'name' => 'required|unique:categories|string'
         ]);
 
+        $validateData['outlet_id'] = auth()->user()->outlet->id;
+
         Category::where('id', $category->id)
-                ->update($validateData);
+                ->update([
+                    'name' => $validateData['name']
+                ]);
 
         return redirect('/dashboard/categories')->with('success', 'New Category has been updated!');
     }
