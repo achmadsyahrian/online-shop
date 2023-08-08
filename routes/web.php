@@ -55,6 +55,10 @@ Route::get('/confirmation', function() {
     return view('confirmation');
 });
 
+// =================================================================================================================
+// Region Controller
+Route::post('/getKabupaten', [TransactionController::class, 'getKabupaten'])->name('getKabupaten')->middleware('auth');
+Route::post('/getKecamatan', [TransactionController::class, 'getKecamatan'])->name('getKecamatan')->middleware('auth');
 
 
 // =================================================================================================================

@@ -12,12 +12,12 @@
    <div class="container h-60">
       <div class="blog-banner">
          <div class="text-center">
-         <h1>SHOPPING CART </h1>
+            <h1>SHOPPING CART </h1>
          </div>
       </div>
    </div>
 </section>
-    
+
 
 <section class="cart_area">
 
@@ -44,8 +44,7 @@
                      <td>
                         <div class="media">
                            <div class="d-flex">
-                              <img src="{{ asset('storage/'. $product->photo_1) }}"
-                                 style="width:100px; height:100px; object-fit:cover;" alt="" />
+                              <img src="{{ asset('storage/'. $product->photo_1) }}" style="width:100px; height:100px; object-fit:cover;" alt="" />
                            </div>
                            <div class="media-body">
                               <p>{{ $product->name }}</p>
@@ -57,9 +56,7 @@
                      </td>
                      <td>
                         <div class="product_count">
-                           <input type="text" name="qty" id="sst" maxlength="12"
-                              value="{{ $cart[$product->id]['quantity'] }}" title="Quantity:" class="input-text qty"
-                              readonly />
+                           <input type="text" name="qty" id="sst" maxlength="12" value="{{ $cart[$product->id]['quantity'] }}" title="Quantity:" class="input-text qty" readonly />
                         </div>
                      </td>
                      <td>
@@ -105,7 +102,7 @@
                      </td>
                   </tr>
                   @else
-                     <p class="text-center">There are no items in the cart</p>
+                  <p class="text-center">There are no items in the cart</p>
                   @endif
                </tbody>
             </table>
