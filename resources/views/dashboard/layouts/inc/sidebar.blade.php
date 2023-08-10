@@ -40,6 +40,15 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
+                    <a class="sidebar-link {{ Request::is('dashboard/populer-products') ? 'active' : '' }}"
+                        href="/dashboard/populer-products" aria-expanded="false">
+                        <span>
+                            <i class="fa-regular fa-star"></i>
+                        </span>
+                        <span class="hide-menu">Populer Products</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link {{ Request::is('dashboard/categories*') ? 'active' : '' }}"
                         href="/dashboard/categories" aria-expanded="false">
                         <span>

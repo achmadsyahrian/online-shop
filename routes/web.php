@@ -76,10 +76,11 @@ Route::get('/orders/{transaction:id}', [OrderController::class, 'detail'])->midd
 
 // =================================================================================================================
 // Dashboard / Outlet Section
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('toko');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
-Route::resource('/dashboard/products', ProductController::class)->middleware('toko');
-Route::resource('/dashboard/categories', CategoryController:: class)->middleware('toko');
+Route::resource('/dashboard/products', ProductController::class)->middleware('auth');
+Route::get('/dashboard/populer-products', [ProductController::class, 'populer'])->middleware('auth');
+Route::resource('/dashboard/categories', CategoryController:: class)->middleware('auth');
 
 Route::get('/create-outlet', [CreateOutletController::class, 'index'])->middleware('auth');
 Route::post('/create-outlet', [CreateOutletController::class, 'store'])->middleware('auth');
@@ -102,15 +103,15 @@ Route::get('/metodewp', [MetodeWpController::class, 'index'])->name('metodewp')-
 
 // =================================================================================================================
 // Dashboard Transaction Section
-Route::get('/dashboard/transaction/new', [DashboardTransactionController::class, 'showNew'])->middleware('toko');
-Route::get('/dashboard/transaction/new/{transaction:id}', [DashboardTransactionController::class, 'confirmation'])->middleware('toko');
-Route::put('/dashboard/transaction/new/{transaction}', [DashboardTransactionController::class, 'changeStatus'])->name('transaction.update')->middleware('toko');
+Route::get('/dashboard/transaction/new', [DashboardTransactionController::class, 'showNew'])->middleware('auth');
+Route::get('/dashboard/transaction/new/{transaction:id}', [DashboardTransactionController::class, 'confirmation'])->middleware('auth');
+Route::put('/dashboard/transaction/new/{transaction}', [DashboardTransactionController::class, 'changeStatus'])->name('transaction.update')->middleware('auth');
 
-Route::get('/dashboard/transaction/completed', [DashboardTransactionController::class, 'showComplete'])->middleware('toko');
-Route::get('/dashboard/transaction/completed/{transaction:id}', [DashboardTransactionController::class, 'detailComplete'])->middleware('toko');
+Route::get('/dashboard/transaction/completed', [DashboardTransactionController::class, 'showComplete'])->middleware('auth');
+Route::get('/dashboard/transaction/completed/{transaction:id}', [DashboardTransactionController::class, 'detailComplete'])->middleware('auth');
 
-Route::get('/dashboard/transaction/rejected', [DashboardTransactionController::class, 'showReject'])->middleware('toko');
-Route::get('/dashboard/transaction/rejected/{transaction:id}', [DashboardTransactionController::class, 'detailReject'])->middleware('toko');
+Route::get('/dashboard/transaction/rejected', [DashboardTransactionController::class, 'showReject'])->middleware('auth');
+Route::get('/dashboard/transaction/rejected/{transaction:id}', [DashboardTransactionController::class, 'detailReject'])->middleware('auth');
 
 
 Route::post('/review', [ReviewController::class, 'store']);

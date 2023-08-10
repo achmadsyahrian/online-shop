@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Quality;
 use App\Models\Category;
 use App\Models\TransactionItem;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
@@ -186,4 +187,14 @@ class ProductController extends Controller
         return redirect('/dashboard/products')->with('success', 'Product has been deleted!');
         
     }
+
+    public function populer() {
+        $products = Product::leftJoin('transaction_items', 'products.id', '=', 'transaction_items.product_id')
+                    ->select('products.id', 'products.name', 'products.photo_1', DB::raw('SUM(transaction_items.quantity) as total_quantity'))
+                    ->groupBy('products.id', 'products.name', 'products.photo_1')
+                    ->orderByDesc('total_quantity')
+                    ->paginate(10);
+        return view('dashboard.products.populer', compact('products'));
+    }
+    
 }
