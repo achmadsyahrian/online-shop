@@ -21,7 +21,7 @@
                   <div class="card mb-0">
                      <div class="card-body">
                         <a href="#" class="text-nowrap logo-img text-center d-block py-3 w-100 h3">
-                           ACHMAD.ID
+                            Quality Parfume
                         </a>
                         <p class="text-center">Register your account</p>
                         <form action="/register" method="POST">

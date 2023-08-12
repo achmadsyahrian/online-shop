@@ -76,14 +76,14 @@
                             <td>
                                 @php
                                     $trItemQuality = collect($products->transactionItem);
-                                    $trItemQualityAvg = $trItemQuality->avg('quality_avg_description');
+                                    $trItemQualityAvg = 4;
                                 @endphp
                                 {{ number_format($trItemQualityAvg, 2)  }}
                             </td>
                             <td>
                                 @php
                                     $trItem = collect($products->transactionItem);
-                                    $trItemAvg = $trItem->avg('rate_avg_rating');
+                                    $trItemAvg = $products->ketahanan;
                                 @endphp
                                 {{ number_format($trItemAvg, 2)  }}
                             </td>
@@ -134,14 +134,14 @@
                             <td>
                                 @php
                                     $trItemQuality = collect($products->transactionItem);
-                                    $trItemQualityAvg = $trItemQuality->avg('quality_avg_description');
+                                    $trItemQualityAvg = 4;
                                 @endphp
                                  {{ number_format($trItemQualityAvg, 2)  }}
                             </td>
                             <td>
                                 @php
                                     $trItem = collect($products->transactionItem);
-                                    $trItemAvg = $trItem->avg('rate_avg_rating');
+                                    $trItemAvg = $products->ketahanan;
                                 @endphp
                                {{ number_format($trItemAvg, 2)  }}
                             </td>

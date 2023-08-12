@@ -1,6 +1,6 @@
 @extends('dashboard.layouts.main')
 @section('container')
-    <h1>Barang Menggunakan WP</h1>
+    <h1>Best Product</h1>
     @if (session()->has('success'))
         <div class="alert alert-success text-center" role="alert">
             {{ session('success') }}
@@ -67,6 +67,7 @@
                                             'totalS' => $hasil,
                                             'itemQuality' => $trItemQualityAvg,
                                             'itemRate' => $trItemAvg,
+                                            'photo_1' => $item->photo_1,
                                         ]);
                                     @endphp
                                 @endforeach
@@ -74,21 +75,8 @@
                                 <table class="table text-nowrap mb-0 align-middle">
                                     <thead class="text-dark fs-4">
                                         <tr>
-                                            <th class="border-bottom-0" rowspan="2">
-                                                <h6 class="fw-semibold mb-0">Ranking</h6>
-                                            </th>
-                                            <th class="border-bottom-0" rowspan="2">
-                                                <h6 class="fw-semibold mb-0">Nama Barang</h6>
-                                            </th>
-                                            <th colspan="{{$countBobot}}">Nilai</th>
-                                            <th colspan="2">Nilai Perhitungan</th>
-                                        </tr>
-                                        <tr>
-                                            @foreach ($bobot as $bobotItem)
-                                                <td>{{ $bobotItem->nama }}</td>
-                                            @endforeach
-                                            <td>Hasil Vektor S</td>
-                                            <td>Hasil Vektor V</td>
+                                            <th>Nama Product</th>
+                                            <th>Image</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -105,19 +93,15 @@
                                             // dd($hasilArr);
                                         @endphp
 
-                                        @foreach ($hasilArr as $itemm)
+                                        @foreach ($hasilArr->take(10) as $itemm)
                                             {{-- @dd($itemm) --}}
                                             <tr>
                                                 <td>{{ $ranking++ }}</td>
                                                 <td>{{ $itemm['name'] }}</td>
+                                                <td class="border-bottom-0">
+                                                    <img src="{{ asset('storage/'. $item['photo_1']) }}" width="200" height="120" style="object-fit:cover;" alt="">
+                                                </td>
 
-                                                <td>{{number_format($itemm['itemQuality'], 2)}}</td>
-                                                <td>{{number_format($itemm['itemRate'], 2)}}</td>
-                                                <td>{{ $itemm['harga']}}</td>
-                                                <td>{{ $itemm['jlh_beli']}}</td>
-
-                                                <td>{{ number_format($itemm['totalS'], 4) }}</td>
-                                                <td>{{ number_format($itemm['totalV'], 4) }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>

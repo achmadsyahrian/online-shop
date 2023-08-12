@@ -74,7 +74,7 @@
 		<div class="container">
 			<div class="row d-flex">
 				<p class="col-lg-12 footer-text text-center">
-					Created with &hearts; by Achmad Syahrian &copy; 2023.</p>
+					Created with &hearts; by Quality Parfume &copy; 2023.</p>
 			</div>
 		</div>
 	</div>

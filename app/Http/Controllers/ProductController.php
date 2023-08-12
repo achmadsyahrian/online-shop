@@ -27,14 +27,14 @@ class ProductController extends Controller
             'outlets' => Outlet::all()
         ]);
     }
-    
+
     public function detail(Product $product)
     {
         $transactionItemIds = TransactionItem::where('product_id', $product->id)->select('id');
         $rates = Rate::whereIn('transaction_item_id', $transactionItemIds)->get();
         $rates = Rate::whereIn('transaction_item_id', $transactionItemIds)->get();
         $qualities = Quality::whereIn('transaction_item_id', $transactionItemIds)->get();
-        
+
         return view('product', [
             'products' => Product::all(),
             'product' => $product,
@@ -63,7 +63,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreProductRequest $request)
-    {         
+    {
         $validateData = $request->validate([
             'name' => 'required|max:255|unique:products',
             'category_id' => 'required',
@@ -71,12 +71,12 @@ class ProductController extends Controller
             'stock' => 'required|integer',
             'photo_1' => 'image|file|max:3072|required', //3mb max
             'photo_2' => 'image|file|max:3072',
-            'photo_3' => 'image|file|max:3072', 
+            'photo_3' => 'image|file|max:3072',
             'description' => 'required'
         ]);
 
         $validateData['outlet_id'] = auth()->user()->outlet->id;
-        
+
         if ($request->file('photo_1')) {
             $validateData['photo_1'] = $request->file('photo_1')->store('product-images');
         }
@@ -90,7 +90,7 @@ class ProductController extends Controller
         Product::create($validateData);
 
         return redirect('/dashboard/products')->with('success', 'New Product has been added!');
-        
+
     }
 
     /**
@@ -135,7 +135,7 @@ class ProductController extends Controller
             'stock' => 'required|integer',
             'photo_1' => 'image|file|max:3072', //3mb max
             'photo_2' => 'image|file|max:3072',
-            'photo_3' => 'image|file|max:3072', 
+            'photo_3' => 'image|file|max:3072',
             'description' => 'required',
         ];
 
@@ -146,7 +146,7 @@ class ProductController extends Controller
         }
 
         $validateData = $request->validate($rules);
-        
+
         $photos = ['photo_1', 'photo_2', 'photo_3'];
 
         foreach ($photos as $photo) {
@@ -185,7 +185,7 @@ class ProductController extends Controller
 
         Product::destroy($product->id);
         return redirect('/dashboard/products')->with('success', 'Product has been deleted!');
-        
+
     }
 
     public function populer() {
@@ -196,5 +196,20 @@ class ProductController extends Controller
                     ->paginate(10);
         return view('dashboard.products.populer', compact('products'));
     }
-    
+
+    public function bestproduct()
+    {
+        $bobot = DB::table("tb_kriteria")->get();
+        $sumBobot = DB::table("tb_kriteria")->sum('bobot');
+        $countBobot = DB::table("tb_kriteria")->count('bobot');
+        $product = Product::withSum('transactionItem','quantity')->with(['transactionItem' => function ($query)
+        {
+            $query->withAvg('rate','rating');
+            $query->withAvg('quality','description');
+
+        }])->get();
+
+        return view('dashboard.products.best',compact('bobot','sumBobot','countBobot','product'));
+    }
+
 }
