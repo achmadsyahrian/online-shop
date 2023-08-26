@@ -16,10 +16,9 @@ class MetodeWpController extends Controller
         {
             $query->withAvg('rate','rating');
             $query->withAvg('quality','description');
+        }])->has('transactionItem')->get();
 
-        }])->get();
-
-
+        // dd($product);
         return view('dashboard.metodewp',compact('bobot','sumBobot','product'));
     }
 
@@ -33,7 +32,7 @@ class MetodeWpController extends Controller
             $query->withAvg('rate','rating');
             $query->withAvg('quality','description');
 
-        }])->get();
+        }])->has('transactionItem')->get();
 
         return view('dashboard.tablewp',compact('bobot','sumBobot','countBobot','product'));
     }

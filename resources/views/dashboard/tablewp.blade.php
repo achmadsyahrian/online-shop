@@ -14,62 +14,45 @@
                     <div class="card w-100">
                         <div class="card-body p-4">
                             <div class="table-responsive">
+                                @php
+                                    $bobotVald = [];
+                                @endphp
+                                @foreach ($bobot as $bobotItem)
+                                    <tr>
+                                        <td>{{ $bobotItem->nama }}</td>
+                                        <td>{{ $bobotItem->bobot }}</td>
+                                        <td>{{ number_format($bobotItem->bobot / $sumBobot, 3) }}</td>
+                                    </tr>
+
+                                    @php
+                                        array_push($bobotVald, $bobotItem->bobot / $sumBobot);
+                                    @endphp
+                                @endforeach
 
                                 @php
-                                    $totalS = 0;
-                                    $hasilArr = collect([]);
+                                    $vektorV = [];
                                 @endphp
-                                @foreach ($product as $products)
-                                    @php
-                                        $trItemQuality = collect($products->transactionItem);
-                                        $trItemQualityAvg = $trItemQuality->avg('quality_avg_description');
-
-                                        $trItem = collect($products->transactionItem);
-                                        $trItemAvg = $trItem->avg('rate_avg_rating');
-                                    @endphp
-
-                                    @foreach ($bobot as $bobotItem)
-                                        @php
-                                            $nilai = $bobotItem->bobot / $sumBobot;
-                                            $hasil = ($trItemQualityAvg ** $nilai) * ($trItemAvg ** $nilai) * ($products->harga ** $nilai) * ($products->transaction_item_sum_quantity ** $nilai);
-                                        @endphp
-
-                                    @endforeach
-                                    @php
-                                        $totalS+=$hasil
-                                    @endphp
-                                @endforeach
-
                                 @foreach ($product as $item)
                                     @php
-                                        $trItemQuality = collect($item->transactionItem);
-                                        $trItemQualityAvg = 4;
-
-                                        $trItem = collect($item->transactionItem);
-                                        $trItemAvg = $item->ketahanan;
-                                    @endphp
-
-                                    @foreach ($bobot as $bobotItem)
-                                        @php
-                                            $nilai = $bobotItem->bobot / $sumBobot;
-                                            $hasil = ($trItemQualityAvg ** $nilai) * ($trItemAvg ** $nilai) * ($item->harga ** $nilai) * ($item->transaction_item_sum_quantity ** $nilai);
-                                        @endphp
-
-                                    @endforeach
-                                    @php
-                                        $totalV = $hasil / $totalS;
-                                        $hasilArr->push([
-                                            'id' => $item->id,
-                                            'name' => $item->name,
-                                            'harga' => $item->harga,
-                                            'jlh_beli' => $item->transaction_item_sum_quantity,
-                                            'totalV' => $totalV,
-                                            'totalS' => $hasil,
-                                            'itemQuality' => $trItemQualityAvg,
-                                            'itemRate' => $trItemAvg,
-                                        ]);
+                                        array_push($vektorV, (4**$bobotVald[0]) * (ketahanan($item->ketahanan) ** $bobotVald[1]) * (wpHarga($item->harga) ** (-$bobotVald[2])) * (jumlahBeli($item->transaction_item_sum_quantity) ** $bobotVald[3]));
                                     @endphp
                                 @endforeach
+
+                                @php
+                                    $result = [];
+                                @endphp
+                                @foreach ($product as $item => $valcount)
+                                    @php
+                                        $result[$loop->iteration - 1] = [
+                                            'product' => $valcount,
+                                            'vektor_v' => $vektorV[$item]/array_sum($vektorV)
+                                        ];
+                                    @endphp
+                                @endforeach
+
+                                @php
+                                    $result = collect($result)->sortByDesc('vektor_v')->values()->all();
+                                @endphp
 
                                 <table class="table text-nowrap mb-0 align-middle">
                                     <thead class="text-dark fs-4">
@@ -80,44 +63,16 @@
                                             <th class="border-bottom-0" rowspan="2">
                                                 <h6 class="fw-semibold mb-0">Nama Barang</h6>
                                             </th>
-                                            <th colspan="{{$countBobot}}">Nilai</th>
-                                            <th colspan="2">Nilai Perhitungan</th>
-                                        </tr>
-                                        <tr>
-                                            @foreach ($bobot as $bobotItem)
-                                                <td>{{ $bobotItem->nama }}</td>
-                                            @endforeach
-                                            <td>Hasil Vektor S</td>
-                                            <td>Hasil Vektor V</td>
+                                            <th>Nilai Perhitungan</th>
                                         </tr>
                                     </thead>
+
                                     <tbody>
-
-                                    </tbody>
-                                    @php
-                                        $ranking = 1;
-                                    @endphp
-                                    <tbody>
-
-                                        @php
-                                            $hasilArr = $hasilArr->sortByDesc('totalV');
-                                            $ranking = 1;
-                                            // dd($hasilArr);
-                                        @endphp
-
-                                        @foreach ($hasilArr as $itemm)
-                                            {{-- @dd($itemm) --}}
+                                        @foreach ($result as $item)
                                             <tr>
-                                                <td>{{ $ranking++ }}</td>
-                                                <td>{{ $itemm['name'] }}</td>
-
-                                                <td>{{number_format($itemm['itemQuality'], 2)}}</td>
-                                                <td>{{number_format($itemm['itemRate'], 2)}}</td>
-                                                <td>{{ $itemm['harga']}}</td>
-                                                <td>{{ $itemm['jlh_beli']}}</td>
-
-                                                <td>{{ number_format($itemm['totalS'], 4) }}</td>
-                                                <td>{{ number_format($itemm['totalV'], 4) }}</td>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $item['product']->name }}</td>
+                                                <td>{{ number_format($item['vektor_v'], 3) }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
